@@ -333,7 +333,15 @@ nnoremap <leader>h :split<CR>
 nnoremap <leader>n :noh<CR>
 
 "Show git status using fugitive plugin command :Gstatus
-nnoremap <leader>g :Gstatus<CR>
+nnoremap <leader>gs :Gstatus<CR>
+
+"Show file difference using fugitive plugin command :Gvdiff
+nnoremap <leader>gd :Gvdiff<CR>
+
+"Apply changes from 2-nd (h) or 3-rd (l) buffers during solving merge
+"conflicts
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
 
 "Create new tab
 nnoremap <leader>t :tabnew<CR>
@@ -366,8 +374,8 @@ let g:NERDTreeShowIgnoredStatus = 1
 " let g:ale_linters = {'jsx': ['stylelint', 'eslint']}
 " let g:ale_linter_aliases = {'jsx': 'css'}
 " ALE javascript linter and prettier enable
-" let g:ale_fixers = {'javascript': ['prettier', 'eslint']}
-let g:ale_fixers = ['prettier', 'eslint']
+let g:ale_fixers = {'javascript': ['prettier', 'eslint'], 'typescript': ['prettier', 'eslint']}
+" let g:ale_fixers = ['prettier', 'eslint']
 " Fix files with prettier when you save them.
 let g:ale_fix_on_save = 1
 
