@@ -374,7 +374,7 @@ let g:NERDTreeShowIgnoredStatus = 1
 " let g:ale_linters = {'jsx': ['stylelint', 'eslint']}
 " let g:ale_linter_aliases = {'jsx': 'css'}
 " ALE javascript linter and prettier enable
-let g:ale_fixers = {'javascript': ['prettier', 'eslint'], 'typescript': ['prettier', 'eslint']}
+let g:ale_fixers = {'javascript': ['prettier', 'eslint'], 'typescript': ['prettier', 'eslint'], 'style': ['prettier', 'stylelint']}
 " let g:ale_fixers = ['prettier', 'eslint']
 " Fix files with prettier when you save them.
 let g:ale_fix_on_save = 1
