@@ -197,12 +197,6 @@ Plug 'airblade/vim-gitgutter'
 " <C-v> to open file in vertical split
 Plug 'ctrlpvim/ctrlp.vim'
 
-" Enable local .lvimrc files for projects
-" E.g. content of .lvimrc:
-" set path=.,app,node_modules
-" set suffixesadd=.js,.jsx,.css
-"Plug 'embear/vim-localvimrc'
-
 " Auto complete code
 " deoplete requires Neovim or Vim8 with if_python3!!!
 " If :echo has("python3") returns 1, then you have python 3 support; otherwise
@@ -225,12 +219,6 @@ Plug 'jiangmiao/auto-pairs'
 
 " IndentLine
 Plug 'yggdroot/indentline'
-
-" All for javascript and JSX syntax
-" Both plugins are needed to highlight the JSX syntax
-" Plug 'pangloss/vim-javascript'
-" Plug 'mxw/vim-jsx'
-" Plug 'ianks/vim-tsx'
 
 "Support JSON syntax
 Plug 'leshill/vim-json'
@@ -372,7 +360,6 @@ let g:NERDTreeIndicatorMapCustom = {"Modified"  : "✹", "Staged"    : "✚", "U
 let g:NERDTreeShowIgnoredStatus = 1
 
 " ALE javascript linter and prettier enable
-" let g:ale_fixers = {'javascript': ['prettier', 'eslint'], 'typescript': ['prettier', 'eslint']}
 let g:ale_fixers = {'*': ['prettier', 'eslint']}
 " Fix files with prettier when you save them.
 let g:ale_fix_on_save = 1
@@ -410,12 +397,6 @@ let g:airline_section_c = '%t'
 
 " Deoplete will be started at startup
 let g:deoplete#enable_at_startup = 1
-
-" Echo documentation
-" let g:echodoc#enable_at_startup = 1
-" let g:echodoc#type = 'virtual'
-
-"Nvim-typescript
 
 
 " =============================================================
