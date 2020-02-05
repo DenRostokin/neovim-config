@@ -210,7 +210,15 @@ Plug 'ctrlpvim/ctrlp.vim'
 " $ pip3 install --user pynvim
 " note: Python3 must be enabled before updating remote plugins
 " If Deoplete was installed prior to Python support being added to Neovim, :UpdateRemotePlugins should be executed manually in order to enable auto-completion.
+" You will need a global install of the neovim client:
+" $ npm install -g neovim
+" If you want to use global typescript package, you have to install:
+" $ npm install -g typescript
+" But nvim-typescript will find local typescript in node_modules firstly
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'Shougo/denite.nvim'
 
 " Auto-pairs
 Plug 'jiangmiao/auto-pairs'
@@ -220,8 +228,9 @@ Plug 'yggdroot/indentline'
 
 " All for javascript and JSX syntax
 " Both plugins are needed to highlight the JSX syntax
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+" Plug 'pangloss/vim-javascript'
+" Plug 'mxw/vim-jsx'
+" Plug 'ianks/vim-tsx'
 
 "Support JSON syntax
 Plug 'leshill/vim-json'
@@ -230,15 +239,7 @@ Plug 'leshill/vim-json'
 Plug 'w0rp/ale'
 
 "Color Themes
-" For Oni set colorschemes in editor settings
-" Plug 'GertjanReynaert/cobalt2-vim-theme'
-" Plug 'morhetz/gruvbox'
 Plug 'joshdick/onedark.vim'
-" Plug 'rafi/awesome-vim-colorschemes'
-" Plug 'sonph/onehalf', {'rtp': 'vim/'}
-"Monokai theme for GUI only!!!
-" Plug 'lsdr/monokai'
-" Plug 'ajh17/Spacegray.vim'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -370,12 +371,9 @@ let g:NERDTreeIndicatorMapCustom = {"Modified"  : "✹", "Staged"    : "✚", "U
 " show ignored status
 let g:NERDTreeShowIgnoredStatus = 1
 
-" ALE linters
-" let g:ale_linters = {'jsx': ['stylelint', 'eslint']}
-" let g:ale_linter_aliases = {'jsx': 'css'}
 " ALE javascript linter and prettier enable
-let g:ale_fixers = {'javascript': ['prettier', 'eslint'], 'typescript': ['prettier', 'eslint']}
-" let g:ale_fixers = ['prettier', 'eslint']
+" let g:ale_fixers = {'javascript': ['prettier', 'eslint'], 'typescript': ['prettier', 'eslint']}
+let g:ale_fixers = {'*': ['prettier', 'eslint']}
 " Fix files with prettier when you save them.
 let g:ale_fix_on_save = 1
 
@@ -412,6 +410,12 @@ let g:airline_section_c = '%t'
 
 " Deoplete will be started at startup
 let g:deoplete#enable_at_startup = 1
+
+" Echo documentation
+" let g:echodoc#enable_at_startup = 1
+" let g:echodoc#type = 'virtual'
+
+"Nvim-typescript
 
 
 " =============================================================
@@ -473,4 +477,6 @@ call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff')
 
 " Disable external tablines
 call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
+
+call deoplete#custom#option('sources', { '_': ['ale'] })
 
