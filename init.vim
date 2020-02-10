@@ -112,17 +112,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Ternjs for VIM!!!
-" Go to the ~/.local/share/nvim/plugged/tern_for_vim
-" and run $ npm install
-"
-" :TernDef - Jump to the definition of the thing under the cursor.
-" :TernDoc - Look up the documentation of something.
-" :TernType - Find the type of the thing under the cursor.
-" :TernRefs - Show all references to the variable or property under the cursor.
-" :TernRename - Rename the variable under the cursor!!!!
-Plug 'ternjs/tern_for_vim'
-
 " Sessions
 " To save session type :SaveSession [session_name]
 " To restore session type :OpenSession [session_name]
@@ -214,17 +203,14 @@ Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'Shougo/denite.nvim'
 
+" Asynchronous Lint Engine
+Plug 'w0rp/ale'
+
 " Auto-pairs
 Plug 'jiangmiao/auto-pairs'
 
 " IndentLine
 Plug 'yggdroot/indentline'
-
-"Support JSON syntax
-Plug 'leshill/vim-json'
-
-" Asynchronous Lint Engine
-Plug 'w0rp/ale'
 
 "Color Themes
 Plug 'joshdick/onedark.vim'
@@ -306,11 +292,8 @@ nnoremap <leader>b :CtrlPBuffer<CR>
 nnoremap <leader>a :bp!<CR>
 nnoremap <leader>f :bn!<CR>
 
-" Fix problems with ALEFix fommand by typing Ctrl-Alt-i
+" Fix problems with ALEFix fommand by typing Shift-Alt-i
 nnoremap <S-A-i> :ALEFix<CR>
-
-" Go to the definition of a thing under the cursor
-nnoremap <F12> :TernDef<CR>
 
 "Vertical split
 nnoremap <leader>v :vsplit<CR>
@@ -335,7 +318,13 @@ nnoremap gdl :diffget //3<CR>
 "Create new tab
 nnoremap <leader>t :tabnew<CR>
 
-" Choose completed variants from deoplete popup
+"Open type definition
+nnoremap <C-space> :TSDoc<CR>
+
+" Go to the definition of a thing under the cursor
+nnoremap <F12> :TSDefPreview<CR>
+
+"Choose completed variants from deoplete popup
 inoremap <silent><expr> <TAB>
 		\ pumvisible() ? "\<C-n>" :
 		\ <SID>check_back_space() ? "\<TAB>" :
@@ -397,6 +386,7 @@ let g:airline_section_c = '%t'
 
 " Deoplete will be started at startup
 let g:deoplete#enable_at_startup = 1
+let g:nvim_typescript#diagnostics_enable = 0
 
 
 " =============================================================
