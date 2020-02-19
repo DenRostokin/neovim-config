@@ -288,13 +288,15 @@ nmap <leader>p "+p<CR>
 
 " NERDTree toggler
 nnoremap <leader>q :NERDTreeToggle<cr>
+" NERDTree focus
+nnoremap <leader>f :NERDTreeFocus<CR>
 
 " Show list of all existing buffers
 nnoremap <leader>b :CtrlPBuffer<CR>
 
 " Go to next/previous buffer even there are any unsaved changes
-nnoremap <leader>a :bp!<CR>
-nnoremap <leader>f :bn!<CR>
+" nnoremap <leader>a :bp!<CR>
+" nnoremap <leader>f :bn!<CR>
 
 " Fix problems with ALEFix fommand by typing Shift-Alt-i
 " nnoremap <S-A-i> :ALEFix<CR>
@@ -346,12 +348,13 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
-if has('patch8.1.1068')
-  " Use `complete_info` if your (Neo)Vim version supports it.
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+" if has('patch8.1.1068')
+"   " Use `complete_info` if your (Neo)Vim version supports it.
+"   inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+" else
+"   imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" endif
+imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -381,8 +384,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
