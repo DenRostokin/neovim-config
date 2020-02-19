@@ -187,9 +187,25 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 
 " Auto complete code
+" deoplete requires Neovim or Vim8 with if_python3!!!
+" If :echo has("python3") returns 1, then you have python 3 support; otherwise
+" you can enable Python3 interface with pip:
+" $ pip3 install --user pynvim
+" note: Python3 must be enabled before updating remote plugins
+" If Deoplete was installed prior to Python support being added to Neovim, :UpdateRemotePlugins should be executed manually in order to enable auto-completion.
 " You will need a global install of the neovim client:
 " $ npm install -g neovim
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" If you want to use global typescript package, you have to install:
+" $ npm install -g typescript
+" But nvim-typescript will find local typescript in node_modules firstly
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" also we need of yats.vim plugin which is a typescript syntax file
+" yats.vim is already provided by vim-polyglot plugin
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'Shougo/denite.nvim'
+
+" Asynchronous Lint Engine
+Plug 'w0rp/ale'
 
 " Auto-pairs
 Plug 'jiangmiao/auto-pairs'
@@ -203,6 +219,9 @@ Plug 'joshdick/onedark.vim'
 " All of your Plugins must be added before the following line
 call plug#end()            " required
 
+"filetype plugin indent on    " required
+"runtime macros/matchit.vim
+
 syntax on
 
 
@@ -210,6 +229,7 @@ syntax on
 "                 GENERAL SETTINGS
 " =============================================================
 
+" highlight vertical column (you can set 80)
 set colorcolumn=0
 set hlsearch
 set incsearch
@@ -222,29 +242,6 @@ set smartindent
 set number
 " When you copying by yank data automaticaly go to the *-register
 set clipboard=unnamed
-
-" Coc.Vim settings
-
-" TextEdit might fail if hidden is not set.
-set hidden
-
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
-
-" Give more space for displaying messages.
-set cmdheight=1
-
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=300
-
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-set signcolumn=yes
 
 " =============================================================
 "                      AUTOCOMMANDS
@@ -297,8 +294,7 @@ nnoremap <leader>a :bp!<CR>
 nnoremap <leader>f :bn!<CR>
 
 " Fix problems with ALEFix fommand by typing Shift-Alt-i
-" nnoremap <S-A-i> :ALEFix<CR>
-nnoremap <S-A-i> :CocCommand prettier.formatFile <CR>
+nnoremap <S-A-i> :ALEFix<CR>
 
 "Vertical split
 nnoremap <leader>v :vsplit<CR>
@@ -323,131 +319,23 @@ nnoremap gdl :diffget //3<CR>
 "Create new tab
 nnoremap <leader>t :tabnew<CR>
 
-map <C-t> :CocCommand terminal.Toggle <CR>
+" Go to the definition of a thing under the cursor
+nnoremap <F12> :TSDefPreview<CR>
+nnoremap gf :TSDefPreview<CR>
 
-" Coc.Vim mappings
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
+"Choose completed variants from deoplete popup
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ deoplete#manual_complete()
 
-function! s:check_back_space() abort
+inoremap <silent><expr> <C-space>
+  \ deoplete#manual_complete()
+
+function! s:check_back_space() abort "{{{
   let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if has('patch8.1.1068')
-  " Use `complete_info` if your (Neo)Vim version supports it.
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current line.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Introduce function text object
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" Use <TAB> for selections ranges.
-" NOTE: Requires 'textDocument/selectionRange' support from the language server.
-" coc-tsserver, coc-python are the examples of servers that support it.
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Add (Neo)Vim's native statusline support.
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Mappings using CoCList:
-" Show all diagnostics.
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands.
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-" Show marketplace
-nnoremap <silent> <space>m  :<C-u>CocList marketplace<cr>
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
 
 " =============================================================
 "                 PLUGINS CONFIGURATION
@@ -462,6 +350,11 @@ let g:NERDTreeIndicatorMapCustom = {"Modified"  : "✹", "Staged"    : "✚", "U
 " show ignored status
 let g:NERDTreeShowIgnoredStatus = 1
 
+" ALE javascript linter and prettier enable
+let g:ale_fixers = {'*': ['prettier', 'eslint']}
+" Fix files with prettier when you save them.
+let g:ale_fix_on_save = 1
+
 " Allow JSX in normal JS files
 let g:jsx_ext_required = 0
 
@@ -473,7 +366,7 @@ let g:UltiSnipsExpandTrigger="<C-f>"
 
 "Session options
 "let g:session_autosave = 'no'
-"let g:session_autosave_periodic = 5
+" let g:session_autosave_periodic = 5
 
 " CtrlP
 let g:ctrlp_working_path_mode='a'
@@ -481,7 +374,8 @@ set wildignore+=**/bower_components/*,**/node_modules/*,**/tmp/*,**/assets/image
 
 " Vim Airline options
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#coc#enabled = 1
+" Airline will handle the ALE messages.
+let g:airline#extensions#ale#enabled = 1
 " Integration with other plugins
 let g:airline_enable_fugitive=1
 let g:airline_enable_bufferline=1
@@ -491,6 +385,10 @@ let g:airline_linecolumn_prefix = '¶ '
 let g:airline_fugitive_prefix = '⎇ '
 let g:airline_paste_symbol = 'ρ'
 let g:airline_section_c = '%t'
+
+" Deoplete will be started at startup
+let g:deoplete#enable_at_startup = 1
+let g:nvim_typescript#diagnostics_enable = 0
 
 
 " =============================================================
@@ -552,4 +450,6 @@ call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff')
 
 " Disable external tablines
 call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
+
+call deoplete#custom#option('sources', { '_': ['ale'] })
 
