@@ -1,6 +1,15 @@
 " Neovim config
 
-" First of all I'm writing more usefull standart key bindings for Vim
+" Install dependencies:
+" 1. python[2,3]
+" 2. python[2,3]-pip
+" 3. python[2,3] -m pip install --user pynvim
+" 4. nodejs
+" 5. npm install -g neovim
+" 6. npm install -g typescript (optionally)
+" 7. [pkgmng] install xsel, ccls, powerline-fonts, ack-grep
+
+"More usefull standart key bindings for Vim
 
 " Go to file from import or required!!!
 " <g-f> - press under cursor
@@ -104,27 +113,13 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Inside of opened NERDTree type:
 " <m-[char you see in the show list]> to create, remove and etc.
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-
-" Git support of NERDTree
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
 
 " Vim Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-" Sessions
-" To save session type :SaveSession [session_name]
-" To restore session type :OpenSession [session_name]
-" Sessions are stored in ~/.vim/sessions
-" Plug 'xolox/vim-session'
-" Plug 'xolox/vim-misc'
-
-" Snipets
-" You need to press <Ctrl-f> after typed expression
-" Plug 'SirVer/ultisnips'
-" Plug 'epilande/vim-es2015-snippets'
-" Plug 'epilande/vim-react-snippets'
-" Plug 'honza/vim-snippets'
 
 " Brackets surrounding
 " The plugin lets to surround with brackets etc. words and whole strings
@@ -156,7 +151,7 @@ Plug 'sheerun/vim-polyglot'
 
 " Emmet plugin
 " You need to press <Ctrl-y-,>
-Plug 'mattn/emmet-vim', { 'for': ['javascript.jsx', 'html', 'css'] }
+Plug 'mattn/emmet-vim', { 'for': ['javascript.jsx', 'typescript.tsx', 'html', 'css'] }
 
 " Multiple cursor
 " You need to press <Ctrl-n> to create new cursor on the word under cursor
@@ -190,6 +185,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 " You will need a global install of the neovim client:
 " $ npm install -g neovim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 " Auto-pairs
 Plug 'jiangmiao/auto-pairs'
@@ -199,6 +195,9 @@ Plug 'yggdroot/indentline'
 
 "Color Themes
 Plug 'joshdick/onedark.vim'
+
+"PlatformIO
+Plug 'coddingtonbear/neomake-platformio'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -456,44 +455,33 @@ nnoremap <silent> <space>m  :<C-u>CocList marketplace<cr>
 "                 PLUGINS CONFIGURATION
 " =============================================================
 
-" width of NERDTree
+" NERDTree
 let g:NERDTreeWinSize=30
-
-" set up icons for statuses
-let g:NERDTreeIndicatorMapCustom = {"Modified"  : "✹", "Staged"    : "✚", "Untracked" : "✭", "Renamed"   : "➜", "Unmerged"  : "═", "Deleted"   : "✖", "Dirty"     : "✗", "Clean"     : "✔︎", 'Ignored'   : '☒', "Unknown"   : "?"}
-
-" show ignored status
 let g:NERDTreeShowIgnoredStatus = 1
 
 " Allow JSX in normal JS files
 let g:jsx_ext_required = 0
 
-" Trigger configuration for Snippets. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-" <Ctrl-j> and <Ctrl-k> to toggle between tabstops of snippet by default
-let g:UltiSnipsExpandTrigger="<C-f>"
-" let g:UltiSnipsJumpForwardTrigger="<C-f>"
-" let g:UltiSnipsJumpBackwardTrigger="<C-s-f>"
-
-"Session options
-"let g:session_autosave = 'no'
-"let g:session_autosave_periodic = 5
-
 " CtrlP
 let g:ctrlp_working_path_mode='a'
 set wildignore+=**/bower_components/*,**/node_modules/*,**/tmp/*,**/assets/images/*,**/assets/fonts/*,**/public/images/*
 
-" Vim Airline options
+" Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#coc#enabled = 1
-" Integration with other plugins
-let g:airline_enable_fugitive=1
-let g:airline_enable_bufferline=1
+let g:airline_powerline_fonts = 1
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
 let g:airline_left_sep = '▶'
 let g:airline_right_sep = '◀'
-let g:airline_linecolumn_prefix = '¶ '
-let g:airline_fugitive_prefix = '⎇ '
-let g:airline_paste_symbol = 'ρ'
-let g:airline_section_c = '%t'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.whitespace = 'Ξ'
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 
 
 " =============================================================
@@ -531,27 +519,6 @@ function! <SID>StripTrailingWhitespaces()
   %s/\s\+$//e
   call cursor(l, c)
 endfun
-
-" NERDTress File highlighting
-function! NERDTreeHighlightFile(extension, fg, bg, guifg)
-  exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guifg='. a:guifg
-  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
-
-call NERDTreeHighlightFile('jade', 'green', 'none', 'green')
-call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow')
-call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF')
-call NERDTreeHighlightFile('jsx', 'blue', 'none', '#3366FF')
-call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow')
-call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow')
-call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow')
-call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow')
-call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow')
-call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan')
-call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan')
-call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red')
-call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500')
-call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff')
 
 " Disable external tablines
 call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
