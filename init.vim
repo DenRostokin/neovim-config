@@ -7,7 +7,7 @@
 " 4. nodejs
 " 5. npm install -g neovim
 " 6. npm install -g typescript (optionally)
-" 7. [pkgmng] install xsel, ccls, powerline-fonts, ack-grep
+" 7. [pkgmng] install xsel, ack-grep, ccls, powerline-fonts, nerd-fonts
 
 "More usefull standart key bindings for Vim
 
@@ -198,6 +198,7 @@ Plug 'joshdick/onedark.vim'
 
 "PlatformIO
 Plug 'coddingtonbear/neomake-platformio'
+Plug 'kaicataldo/material.vim'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -286,9 +287,11 @@ vmap <leader>y "+y<CR>
 nmap <leader>p "+p<CR>
 
 " NERDTree toggler
-nnoremap <leader>q :NERDTreeToggle<cr>
+nmap <leader>q :NERDTreeToggle<cr>
 " NERDTree focus
 nnoremap <leader>f :NERDTreeFocus<CR>
+" NERDTree find
+nnoremap <leader>c :NERDTreeFind<CR>
 
 " Show list of all existing buffers
 nnoremap <leader>b :CtrlPBuffer<CR>
@@ -455,6 +458,18 @@ nnoremap <silent> <space>m  :<C-u>CocList marketplace<cr>
 "                 PLUGINS CONFIGURATION
 " =============================================================
 
+" coc config
+let g:coc_global_extensions = [
+  \ 'coc-tsserver',
+  \ 'coc-terminal',
+  \ 'coc-stylelintplus',
+  \ 'coc-prettier',
+  \ 'coc-html',
+  \ 'coc-eslint',
+  \ 'coc-css',
+  \ 'coc-ccls',
+  \ ]
+
 " NERDTree
 let g:NERDTreeWinSize=30
 let g:NERDTreeShowIgnoredStatus = 1
@@ -483,15 +498,21 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
-
 " =============================================================
 "                      COLORSCHEMES SETTINGS
 " =============================================================
 
 "Onedark Theme options
-let g:onedark_termcolors = 256
-let g:onedark_terminal_italics = 1
-colorscheme onedark
+" let g:onedark_termcolors = 256
+" let g:onedark_terminal_italics = 1
+" colorscheme onedark
+colorscheme material
+let g:material_terminal_italics = 1
+let g:material_theme_style = 'palenight'
+
+if (has('termguicolors'))
+  set termguicolors
+endif
 
 " =============================================================
 "                      CUSTOM FUNCTIONS
@@ -522,4 +543,3 @@ endfun
 
 " Disable external tablines
 call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
-
