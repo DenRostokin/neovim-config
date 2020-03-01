@@ -8,7 +8,9 @@
     "javascriptreact",
     "typescript",
     "typescriptreact",
-    "json"
+    "json",
+    "c",
+    "cpp"
   ],
   "eslint.filetypes": [
     "javascript",
