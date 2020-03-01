@@ -285,10 +285,8 @@ nmap <leader>p "+p<CR>
 
 " NERDTree toggler
 nmap <leader>q :NERDTreeToggle<cr>
-" NERDTree focus
-nnoremap <leader>f :NERDTreeFocus<CR>
-" NERDTree find
-nnoremap <leader>c :NERDTreeFind<CR>
+" NERDTree focus on the current buffer
+nnoremap <leader>f :NERDTreeFind<CR>
 
 " Show list of all existing buffers
 nnoremap <leader>b :CtrlPBuffer<CR>
