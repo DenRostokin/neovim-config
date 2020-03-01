@@ -151,7 +151,7 @@ Plug 'sheerun/vim-polyglot'
 
 " Emmet plugin
 " You need to press <Ctrl-y-,>
-Plug 'mattn/emmet-vim', { 'for': ['javascript.jsx', 'typescript.tsx', 'html', 'css'] }
+Plug 'mattn/emmet-vim', { 'for': ['javascript.jsx', 'typescriptreact', 'html', 'css'] }
 
 " Multiple cursor
 " You need to press <Ctrl-n> to create new cursor on the word under cursor
@@ -195,9 +195,6 @@ Plug 'yggdroot/indentline'
 
 "Color Themes
 Plug 'joshdick/onedark.vim'
-
-"PlatformIO
-Plug 'coddingtonbear/neomake-platformio'
 Plug 'kaicataldo/material.vim'
 
 " All of your Plugins must be added before the following line
