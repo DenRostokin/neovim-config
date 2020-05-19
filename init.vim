@@ -463,8 +463,8 @@ let g:coc_global_extensions = [
   \ 'coc-eslint',
   \ 'coc-css',
   \ 'coc-ccls',
-  \ 'coc-json',
   \ 'coc-snippets',
+  \ 'coc-json',
   \ ]
 
 " NERDTree

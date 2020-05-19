@@ -1,4 +1,6 @@
 {
+  "prettier.requireConfig": true,
+  "eslint.enable": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "html",
     "css",
@@ -18,7 +20,7 @@
     "typescript",
     "typescriptreact"
   ],
-  "typescript.validate.enable": true,
+  "typescript.validate.enable": false,
   "languageserver": {
     "ccls": {
       "command": "ccls",
