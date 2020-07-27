@@ -112,9 +112,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 " And type <leader>q to toggle nerdtree
 " Inside of opened NERDTree type:
 " <m-[char you see in the show list]> to create, remove and etc.
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 
 " Vim Airline
@@ -251,9 +251,6 @@ set diffopt+=vertical
 
 if has("autocmd")
 
-" Autostart NERDTree when VIM starts
-" autocmd VimEnter * :NERDTreeTabsOpen
-
 autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
@@ -286,9 +283,9 @@ vmap <leader>y "+y<CR>
 nmap <leader>p "+p<CR>
 
 " NERDTree toggler
-nmap <leader>q :NERDTreeToggle<cr>
+" nmap <leader>q :NERDTreeToggle<cr>
 " NERDTree focus on the current buffer
-nnoremap <leader>f :NERDTreeFind<CR>
+" nnoremap <leader>f :NERDTreeFind<CR>
 
 " Show list of all existing buffers
 nnoremap <leader>b :CtrlPBuffer<CR>
@@ -450,6 +447,8 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " Show marketplace
 nnoremap <silent> <space>m  :<C-u>CocList marketplace<cr>
+" Show files explorer
+nmap <leader>q :CocCommand explorer<CR>
 
 " =============================================================
 "                 PLUGINS CONFIGURATION
@@ -467,18 +466,19 @@ let g:coc_global_extensions = [
   \ 'coc-ccls',
   \ 'coc-snippets',
   \ 'coc-json',
+  \ 'coc-explorer'
   \ ]
 
 " NERDTree
-let g:NERDTreeWinSize=30
-let g:NERDTreeShowIgnoredStatus = 1
+" let g:NERDTreeWinSize=30
+" let g:NERDTreeShowIgnoredStatus = 1
 
 " Allow JSX in normal JS files
 let g:jsx_ext_required = 0
 
 " CtrlP
 let g:ctrlp_working_path_mode='a'
-set wildignore+=**/bower_components/*,**/node_modules/*,**/tmp/*,**/assets/images/*,**/assets/fonts/*,**/public/images/*
+set wildignore+=**/bower_components/*,**/node_modules/*
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
