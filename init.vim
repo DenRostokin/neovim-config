@@ -1,120 +1,13 @@
-" Neovim config
-
-" Install dependencies:
-" 1. python[2,3]
-" 2. python[2,3]-pip
-" 3. python[2,3] -m pip install --user pynvim
-" 4. nodejs
-" 5. npm install -g neovim
-" 6. npm install -g typescript (optionally)
-" 7. [pkgmng] install xsel, ack-grep, ccls, powerline-fonts, nerd-fonts
-
-"More usefull standart key bindings for Vim
-
-" Go to file from import or required!!!
-" <g-f> - press under cursor
-" <Ctrl-w-g-f> - open file in the new tab
-" <Ctrl-w-f> - open file in the vertical split (cause I map It)
-"
-" Recording in VIM!!!
-" <q-[char]> - start recording. In this case all you type will be saved in
-" register (with commands you do). E.g. <q-p> or <q-o>
-" <@ - [char]> - repeat this record. E.g. <@-p> or <@-q>
-" <q> - turn off recording
-"
-" Center screen on the current string
-" <zz>
-"
-" To upper/lower case. Mark frase and press
-" You must do it in the visual mode
-" <U> - touppercase
-" <u> - tolowercase
-"
-" SCROLL SCREEN
-" <Ctrl-e> - 1 string down
-" <Ctrl-d> - 1/2 screen down
-" <Ctrl-f> - 1 screen down
-" <Ctrl-y> - 1 string up
-" <Ctrl-u> - 1/2 screen up
-" <Ctrl-b> - 1 string up
-"
-" <Ctrl-w-n> - create new window
-" <Ctrl-w-hjklw> - windows navigation
-" <Ctrl-w-s> or :split - create window`s split, i.e. open same file on the another window
-"
-" <cc> - delete whole string and start insert mode
-" <cw> - delete word and start insert mode
-"
-" <v> - enter to the visual mode (select a character)
-" <Shift-v> - select whole string
-" <o> after selecting strings by <Shift-v> - start selection on top of
-" existing selection
-" <gv> - repeat previous selection!!!
-" <vip> - select current paragraph (function is a paragraph too!!!)
-"
-" </> - search a string
-" <n> - go to next found word
-" <Shift-n> - go to previous found word
-" <f-[char]> - forward finding a letter starts with [char] in the same string
-" <F-[char]> - backward finding a letter in the same string
-" <t-[char]> and <T-[char]> - the same action, but include [char] character
-" <;> - go to the next/previous letter in the same string
-"
-" <%> - go to pair character, i.e. (), {}, [] etc.
-"
-" <*> - mark all words like word under cursor
-" <n> - go to the next comparison
-" :noh - light out all marked words
-"
-" <dw> - delete word
-" <d-^> - delete from current to start of string
-" <d-$> - delete from current to end of string
-" <d-t-[char]> - delete from character under cursor to [char] (not include)
-" <d-f-[char]> - same action but include [char]
-" <y-t-[char]> and <y-f-[char]> - same but copy instead delete
-"
-" Marks
-" <m-[char in low case]> - create you own local mark
-" <m-[char in up case]> - create you own GLOBAL mark
-" <`-[char]> - go to the mark [char]
-" <`-.> - go to the place that you edited last time
-"
-" <g-f> - go to the file under cursor (if the file exists)
-"
-" <g-t> - go to the next Vim tab
-" <g-T> - go to the previous Vim tab
-"
-" Actions with Vim REGISTERS!!!!!
-" <"-[reg_name]-y> - copy data to the [reg_name] register
-" <Ctrl-r>[reg_name] - insert data from [reg_name] register in INSERT MODE
-" <">[reg_name][pP] - insert data from [reg_name] register in EX MODE
-" after[p]/before[P] cursor. For example: "ap
-" :reg [reg_name] - show content of [reg_name] register
-"
-" Create new files and folders in NERDTree!!!!
-" You need press <m-[admc]> to add, delete, move and copy
-
-" BUFFERS
-" :ls - show all existing buffers
-" :bdelete <buff_number> | <buff_name> - delete buffer
-
-" IMPORTANT!!!!!
-" To support 256 colors in Vim you should set up variable in .bashrc:
-" export TERM=xterm-256color
-
+" MUST be at the beginning of the file!!!
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " specify directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
-" Type <Ctrl>ww to focus on nerdtree and document
-" And type <leader>q to toggle nerdtree
-" Inside of opened NERDTree type:
-" <m-[char you see in the show list]> to create, remove and etc.
-" Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
 Plug 'ryanoasis/vim-devicons'
 
 " Vim Airline
@@ -134,11 +27,6 @@ Plug 'vim-airline/vim-airline-themes'
 " brackets
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-
-" Fast search in project`s files
-" IMPORTANT!!! To use the plugin you need to install 'ack-grep' package
-"You need to type :Ack [options] {pattern} [{directories}]
-Plug 'mileszs/ack.vim'
 
 " Comment code
 " To comment one string of code you need type gcc in EX MODE
@@ -169,21 +57,13 @@ Plug 'easymotion/vim-easymotion'
 " :help fugitive to view all available commands
 " Gstatus to show repository status
 " Gdiff to look at the difference of commits
-"
 " Gcommit -m [commit_name] to commit added data
 " Gpull origin master to pull branch to your comp
 " Gpush origin master to push your repository to the remove server
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" Ctrlp.vim Plugin
-" You need press <Ctrl-p>
-" <C-v> to open file in vertical split
-Plug 'ctrlpvim/ctrlp.vim'
-
 " Auto complete code
-" You will need a global install of the neovim client:
-" $ npm install -g neovim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
@@ -200,12 +80,12 @@ Plug 'kaicataldo/material.vim'
 " All of your Plugins must be added before the following line
 call plug#end()            " required
 
-syntax on
-
 
 " =============================================================
 "                 GENERAL SETTINGS
 " =============================================================
+
+syntax on
 
 set colorcolumn=0
 set hlsearch
@@ -291,7 +171,7 @@ nmap <leader>p "+p<CR>
 " nnoremap <leader>f :NERDTreeFind<CR>
 
 " Show list of all existing buffers
-nnoremap <leader>b :CtrlPBuffer<CR>
+" nnoremap <leader>b :CtrlPBuffer<CR>
 
 " Go to next/previous buffer even there are any unsaved changes
 " nnoremap <leader>a :bp!<CR>
@@ -502,16 +382,8 @@ let g:coc_explorer_global_presets = {
 \   }
 \ }
 
-" NERDTree
-" let g:NERDTreeWinSize=30
-" let g:NERDTreeShowIgnoredStatus = 1
-
 " Allow JSX in normal JS files
 let g:jsx_ext_required = 0
-
-" CtrlP
-let g:ctrlp_working_path_mode='a'
-set wildignore+=**/bower_components/*,**/node_modules/*
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -534,10 +406,6 @@ let g:airline_symbols.linenr = ''
 "                      COLORSCHEMES SETTINGS
 " =============================================================
 
-"Onedark Theme options
-" let g:onedark_termcolors = 256
-" let g:onedark_terminal_italics = 1
-" colorscheme onedark
 colorscheme material
 let g:material_terminal_italics = 1
 let g:material_theme_style = 'palenight'
@@ -552,7 +420,6 @@ endif
 
 " Create folders on file save
 " ===========================
-
 function! s:MkNonExDir(file, buf)
   if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
     let dir=fnamemodify(a:file, ':h')
@@ -565,7 +432,6 @@ endfunction
 " Remove whitespaces on save
 " saving cursor position
 " =================================================
-
 function! <SID>StripTrailingWhitespaces()
   let l = line(".")
   let c = col(".")
@@ -575,3 +441,51 @@ endfun
 
 " Disable external tablines
 call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
+
+
+" This is the default extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+map <C-f> :Files<CR>
+map <leader>b :Buffers<CR>
+nnoremap <leader>g :Rg<CR>
+nnoremap <leader>t :Tags<CR>
+nnoremap <leader>m :Marks<CR>
+
+
+let g:fzf_tags_command = 'ctags -R'
+" Border color
+let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
+
+let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
+let $FZF_DEFAULT_COMMAND="rg --files --hidden"
+
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+"Get Files
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
