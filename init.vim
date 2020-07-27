@@ -243,6 +243,8 @@ set shortmess+=c
 " diagnostics appear/become resolved.
 set signcolumn=yes
 
+set diffopt+=vertical
+
 " =============================================================
 "                      AUTOCOMMANDS
 " =============================================================
@@ -312,7 +314,7 @@ nnoremap <leader>n :noh<CR>
 nnoremap <leader>gs :Gstatus<CR>
 
 "Show file difference using fugitive plugin command :Gvdiff
-nnoremap <leader>gd :Gvdiff<CR>
+nnoremap <leader>gd :Gdiffsplit!<CR>
 
 "Apply changes from 2-nd (h) or 3-rd (l) buffers during solving merge
 "conflicts

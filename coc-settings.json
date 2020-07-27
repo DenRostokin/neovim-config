@@ -20,7 +20,7 @@
     "typescript",
     "typescriptreact"
   ],
-  "typescript.validate.enable": false,
+  "typescript.validate.enable": true,
   "languageserver": {
     "ccls": {
       "command": "ccls",
