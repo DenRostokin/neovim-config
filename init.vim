@@ -259,6 +259,9 @@ augroup FiletypeGroup
     au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
 augroup END
 
+" close coc-explorer if there arent other windows
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+
 endif
 
 
@@ -452,7 +455,26 @@ nnoremap <silent> <space>m  :<C-u>CocList marketplace<cr>
 nmap <leader>q :CocCommand explorer<CR>
 nmap <leader>f :CocCommand explorer --preset floating<CR>
 
-autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+" =============================================================
+"                 PLUGINS CONFIGURATION
+" =============================================================
+
+" coc config
+let g:coc_global_extensions = [
+  \ 'coc-tsserver',
+  \ 'coc-terminal',
+  \ 'coc-stylelintplus',
+  \ 'coc-prettier',
+  \ 'coc-html',
+  \ 'coc-eslint',
+  \ 'coc-css',
+  \ 'coc-ccls',
+  \ 'coc-snippets',
+  \ 'coc-json',
+  \ 'coc-explorer'
+  \ ]
+
+" coc-explorer config
 let g:coc_explorer_global_presets = {
 \   'floating': {
 \     'position': 'floating',
@@ -479,25 +501,6 @@ let g:coc_explorer_global_presets = {
 \     'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
 \   }
 \ }
-
-" =============================================================
-"                 PLUGINS CONFIGURATION
-" =============================================================
-
-" coc config
-let g:coc_global_extensions = [
-  \ 'coc-tsserver',
-  \ 'coc-terminal',
-  \ 'coc-stylelintplus',
-  \ 'coc-prettier',
-  \ 'coc-html',
-  \ 'coc-eslint',
-  \ 'coc-css',
-  \ 'coc-ccls',
-  \ 'coc-snippets',
-  \ 'coc-json',
-  \ 'coc-explorer'
-  \ ]
 
 " NERDTree
 " let g:NERDTreeWinSize=30
