@@ -442,7 +442,6 @@ endfun
 " Disable external tablines
 call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
 
-
 " This is the default extra key bindings
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -458,9 +457,6 @@ let g:fzf_history_dir = '~/.local/share/fzf-history'
 map <C-f> :Files<CR>
 map <leader>b :Buffers<CR>
 nnoremap <leader>g :Rg<CR>
-nnoremap <leader>t :Tags<CR>
-nnoremap <leader>m :Marks<CR>
-
 
 let g:fzf_tags_command = 'ctags -R'
 " Border color
@@ -468,7 +464,6 @@ let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffse
 
 let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
 let $FZF_DEFAULT_COMMAND="rg --files --hidden"
-
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
