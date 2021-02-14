@@ -5,6 +5,8 @@ filetype off                  " required
 " specify directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
+Plug 'neomake/neomake'
+
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-rooter'
@@ -165,20 +167,7 @@ nnoremap tM :tabm-1<CR>
 vmap <leader>y "+y<CR>
 nmap <leader>p "+p<CR>
 
-" NERDTree toggler
-" nmap <leader>q :NERDTreeToggle<cr>
-" NERDTree focus on the current buffer
-" nnoremap <leader>f :NERDTreeFind<CR>
-
-" Show list of all existing buffers
-" nnoremap <leader>b :CtrlPBuffer<CR>
-
-" Go to next/previous buffer even there are any unsaved changes
-" nnoremap <leader>a :bp!<CR>
-" nnoremap <leader>f :bn!<CR>
-
-" Fix problems with ALEFix fommand by typing Shift-Alt-i
-" nnoremap <S-A-i> :ALEFix<CR>
+" Format file by prettier
 nnoremap <S-A-i> :CocCommand prettier.formatFile <CR>
 
 "Vertical split
@@ -351,7 +340,10 @@ let g:coc_global_extensions = [
   \ 'coc-ccls',
   \ 'coc-snippets',
   \ 'coc-json',
-  \ 'coc-explorer'
+  \ 'coc-explorer',
+  \ 'coc-rls',
+  \ 'coc-pyright',
+  \ 'coc-yaml'
   \ ]
 
 " coc-explorer config
@@ -407,13 +399,11 @@ let g:airline_symbols.linenr = ''
 " =============================================================
 
 colorscheme material
-let g:material_terminal_italics = 1
-let g:material_theme_style = 'palenight'
+let g:onedark_hide_endofbuffer=1
+let g:onedark_terminal_italics=1
+let g:onedark_termcolors=256
 
-if (has('termguicolors'))
-  set termguicolors
-endif
-
+"
 " =============================================================
 "                      CUSTOM FUNCTIONS
 " =============================================================
@@ -438,9 +428,6 @@ function! <SID>StripTrailingWhitespaces()
   %s/\s\+$//e
   call cursor(l, c)
 endfun
-
-" Disable external tablines
-call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
 
 " This is the default extra key bindings
 let g:fzf_action = {

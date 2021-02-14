@@ -33,10 +33,8 @@ You must do it in the visual mode
 SCROLL SCREEN
 <Ctrl-e> - 1 string down
 <Ctrl-d> - 1/2 screen down
-<Ctrl-f> - 1 screen down
 <Ctrl-y> - 1 string up
 <Ctrl-u> - 1/2 screen up
-<Ctrl-b> - 1 string up
 
 <Ctrl-w-n> - create new window
 <Ctrl-w-hjklw> - windows navigation
@@ -47,7 +45,6 @@ SCROLL SCREEN
 
 <v> - enter to the visual mode (select a character)
 <Shift-v> - select whole string
-<o> after selecting strings by <Shift-v> - start selection on top of
 existing selection
 <gv> - repeat previous selection!!!
 <vip> - select current paragraph (function is a paragraph too!!!)
@@ -79,8 +76,6 @@ Marks
 <`-[char]> - go to the mark [char]
 <`-.> - go to the place that you edited last time
 
-<g-f> - go to the file under cursor (if the file exists)
-
 <g-t> - go to the next Vim tab
 <g-T> - go to the previous Vim tab
 
@@ -90,9 +85,6 @@ Actions with Vim REGISTERS!!!!!
 <">[reg_name][pP] - insert data from [reg_name] register in EX MODE
 after[p]/before[P] cursor. For example: "ap
 :reg [reg_name] - show content of [reg_name] register
-
-Create new files and folders in NERDTree!!!!
-You need press <m-[admc]> to add, delete, move and copy
 
 BUFFERS
 :ls - show all existing buffers

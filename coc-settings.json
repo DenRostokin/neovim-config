@@ -1,4 +1,5 @@
 {
+  "yaml.format.enable": true,
   "prettier.requireConfig": true,
   "eslint.enable": true,
   "coc.preferences.formatOnSaveFiletypes": [
