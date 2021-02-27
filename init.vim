@@ -337,7 +337,7 @@ let g:coc_global_extensions = [
   \ 'coc-html',
   \ 'coc-eslint',
   \ 'coc-css',
-  \ 'coc-ccls',
+  \ 'coc-clangd',
   \ 'coc-snippets',
   \ 'coc-json',
   \ 'coc-explorer',
