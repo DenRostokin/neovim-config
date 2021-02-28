@@ -22,22 +22,7 @@
     "typescriptreact"
   ],
   "typescript.validate.enable": true,
-  "languageserver": {
-    "ccls": {
-      "command": "ccls",
-      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
-      "rootPatterns": [".ccls", "compile_commands.json"],
-      "initializationOptions": {
-        "cache": {
-          "directory": "/tmp/ccls-cache"
-        },
-        "client": {
-          "snippetSupport": true
-        },
-        "highlight": { "lsRanges": true }
-      }
-    }
-  },
+  "languageserver": {},
   "explorer.width": 30,
   "explorer.icon.enableNerdfont": true
 }
